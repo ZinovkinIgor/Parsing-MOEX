@@ -28,7 +28,10 @@ print(f"На обработку {score} компаний")                      
 
 name_market = soup.find("table", class_="simple-little-table trades-table").find("tr").find_all("th")   # достаем данные с
 for num, item in enumerate(name_market):                                                                #
-    print(num, item.text)                                                                               #
+    print(num, item.text)
+
+
+#
 
 # Сохраняем шапку для таблицы
 number = name_market[0].text                   # номер по порядку
@@ -45,6 +48,7 @@ change_price_mon12 = name_market[13].text      # изменение за 12 ме
 capitalization_ru = name_market[14].text       # Капитализация в милрд руб
 capitalization_ue = name_market[15].text       # Капитализация в милрд дол
 change_value = name_market[16].text            # Изменение Объема
+
 
 
 with open("data/moex.csv", "w", encoding="utf-8") as file:
@@ -68,15 +72,20 @@ with open("data/moex.csv", "w", encoding="utf-8") as file:
             )
         )
 
+
 list_stock = []
 
+
 teg = soup.find("table", class_="simple-little-table trades-table")
-# result_stock = soup.find("table", class_="simple-little-table trades-table").find_all("tr")[2:]
+
 for n1 in teg.find_all("tr")[2:]:
     new_list = []
     for m2 in n1.find_all("td"):
         new_list.append(m2.text.replace('\t', '').replace('\n', ''))
     list_stock.append(new_list)
+
+with open("data/moex.json", "w", encoding="utf-8") as file:
+    json.dump(list_stock, file, indent=4, ensure_ascii=False)
 
 for result_stock in list_stock:
 
