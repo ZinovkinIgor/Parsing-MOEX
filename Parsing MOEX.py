@@ -5,8 +5,6 @@ import lxml
 import json
 
 
-
-
 url = 'https://smart-lab.ru/q/shares/'
 headers = {
           'accept':  '*/*',
@@ -70,42 +68,52 @@ with open("data/moex.csv", "w", encoding="utf-8") as file:
             )
         )
 
-result_stock = soup.find("table", class_="simple-little-table trades-table").find("tr", class_="down").find_all("td")
-for numb, item2 in enumerate(result_stock):
-    print(numb, item2.text.replace('\t', '').replace('\n', ''))
-number_result = result_stock[0].text                   # номер по порядку
-time_result = result_stock[1].text                     # Время
-name_result = result_stock[2].text                     # Название компании
-tiker_result = result_stock[3].text                    # Тикер
-price_end_result = result_stock[7].text                # Цена последняя
-price_change_result = result_stock[8].text.replace('\t', '').replace('\n', '')            # Изменение цены в %
-value_result = result_stock[9].text                    # Объем мил.рублей
-change_price_w_result = result_stock[10].text          # изменение за 1 неделю в %
-change_price_m_result = result_stock[11].text          # изменение за 1 месяц в %
-change_price_y_result = result_stock[12].text          # изменение с начала года в %
-change_price_mon12_result = result_stock[13].text      # изменение за 12 месяцев в %
-capitalization_ru_result = result_stock[14].text       # Капитализация в милрд руб
-capitalization_ue_result = result_stock[15].text       # Капитализация в милрд дол
-change_value_result = result_stock[16].text            # Изменение Объема
+list_stock = []
+
+teg = soup.find("table", class_="simple-little-table trades-table")
+# result_stock = soup.find("table", class_="simple-little-table trades-table").find_all("tr")[2:]
+for n1 in teg.find_all("tr")[2:]:
+    new_list = []
+    for m2 in n1.find_all("td"):
+        new_list.append(m2.text.replace('\t', '').replace('\n', ''))
+    list_stock.append(new_list)
+
+for result_stock in list_stock:
+
+    number_result = result_stock[0]                   # номер по порядку
+    time_result = result_stock[1]                     # Время
+    name_result = result_stock[2]                    # Название компании
+    tiker_result = result_stock[3]                    # Тикер
+    price_end_result = result_stock[7]                # Цена последняя
+    price_change_result = result_stock[8].replace('\t', '').replace('\n', '')            # Изменение цены в %
+    value_result = result_stock[9]                   # Объем мил.рублей
+    change_price_w_result = result_stock[10]         # изменение за 1 неделю в %
+    change_price_m_result = result_stock[11]         # изменение за 1 месяц в %
+    change_price_y_result = result_stock[12]          # изменение с начала года в %
+    change_price_mon12_result = result_stock[13]      # изменение за 12 месяцев в %
+    capitalization_ru_result = result_stock[14]       # Капитализация в милрд руб
+    capitalization_ue_result = result_stock[15]       # Капитализация в милрд дол
+    change_value_result = result_stock[16]            # Изменение Объема
 
 
-with open("data/moex.csv", "a", encoding="utf-8") as file:
-    winter = csv.writer(file)
-    winter.writerow(
-        (
-            number_result,
-            time_result,
-            name_result,
-            tiker_result,
-            price_end_result,
-            price_change_result,
-            value_result,
-            change_price_w_result,
-            change_price_m_result,
-            change_price_y_result,
-            change_price_y_result,
-            capitalization_ru_result,
-            capitalization_ue_result,
-            change_value_result
+    with open("data/moex.csv", "a", encoding="utf-8") as file:
+        winter = csv.writer(file)
+        winter.writerow(
+            (
+                number_result,
+                time_result,
+                name_result,
+                tiker_result,
+                price_end_result,
+                price_change_result,
+                value_result,
+                change_price_w_result,
+                change_price_m_result,
+                change_price_y_result,
+                change_price_y_result,
+                capitalization_ru_result,
+                capitalization_ue_result,
+                change_value_result
+                )
             )
-        )
+
