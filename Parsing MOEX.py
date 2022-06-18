@@ -76,16 +76,16 @@ with open("data/moex.csv", "w", encoding="utf-8") as file:
 list_stock = []
 
 
-teg = soup.find("table", class_="simple-little-table trades-table")
+teg = soup.find("table", class_="simple-little-table trades-table")         # берем данные с тега table
 
-for n1 in teg.find_all("tr")[2:]:
-    new_list = []
-    for m2 in n1.find_all("td"):
-        new_list.append(m2.text.replace('\t', '').replace('\n', ''))
-    list_stock.append(new_list)
+for n1 in teg.find_all("tr")[2:]:                                           # ищем по тегам tr  и берем данные с 3 строки
+    new_list = []                                                           # создаем новый временный список
+    for m2 in n1.find_all("td"):                                            # пропускаем через второй цикл и ищем по тегу td
+        new_list.append(m2.text.replace('\t', '').replace('\n', ''))        #  добавляем во временный список и обрезаем все переносы и
+    list_stock.append(new_list)                                             #
 
-with open("data/moex.json", "w", encoding="utf-8") as file:
-    json.dump(list_stock, file, indent=4, ensure_ascii=False)
+with open("data/moex.json", "w", encoding="utf-8") as file:            # Сохраняем  данный в json файл
+    json.dump(list_stock, file, indent=4, ensure_ascii=False)          #
 
 for result_stock in list_stock:
 
@@ -105,9 +105,9 @@ for result_stock in list_stock:
     change_value_result = result_stock[16]            # Изменение Объема
 
 
-    with open("data/moex.csv", "a", encoding="utf-8") as file:
-        winter = csv.writer(file)
-        winter.writerow(
+    with open("data/moex.csv", "a", encoding="utf-8") as file:        # Заполняем таблицу
+        winter = csv.writer(file)                                     #
+        winter.writerow(                                              #
             (
                 number_result,
                 time_result,
