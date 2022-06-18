@@ -13,11 +13,11 @@ headers = {
           'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.160 YaBrowser/22.5.2.615 Yowser/2.5 Safari/537.36'
          }
 
-# res = requests.get(url= url, headers=headers)            # Берем данные с сайта
-# src = res.text                                           # помещаем их в переменную
-#
-# with open("MOEX.html", "w", encoding="utf-8") as file:   # Сохранили страницу MOEX.html и работаем с ней
-#     file.write(src)                                      #
+res = requests.get(url= url, headers=headers)            # Берем данные с сайта
+src = res.text                                           # помещаем их в переменную
+
+with open("MOEX.html", "w", encoding="utf-8") as file:   # Сохранили страницу MOEX.html и работаем с ней
+    file.write(src)                                      #
 
 with open("MOEX.html", "r", encoding="utf-8") as file:     # открываем MOEX.html
     src = file.read()                                      # начинаем его читать
@@ -25,12 +25,12 @@ with open("MOEX.html", "r", encoding="utf-8") as file:     # открываем 
 soup = BeautifulSoup(src, "lxml")                          # переносим сайт в BeautifulSoup и начинаем работать
 
 result_len = soup.find("table", class_="simple-little-table trades-table").find_all("tr")  # Заходим по адресу и забираем все данные с
-score = len(result_len) - 1                                                                # тегом tr,  сохраняем количество полученных данных
-print(f"На обработку {score} компаний")                                                      #
+score = len(result_len) - 2                                                                # тегом tr,  сохраняем количество полученных данных
+print(f"На обработку {score} компаний")                                                    #
 
-name_market = soup.find("table", class_="simple-little-table trades-table").find("tr").find_all("th")
-for num, item in enumerate(name_market):
-    print(num, item.text)
+name_market = soup.find("table", class_="simple-little-table trades-table").find("tr").find_all("th")   # достаем данные с
+for num, item in enumerate(name_market):                                                                #
+    print(num, item.text)                                                                               #
 
 #
 number = name_market[0].text               # номер по порядку
